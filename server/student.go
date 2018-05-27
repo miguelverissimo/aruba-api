@@ -19,9 +19,9 @@ func (Student) TableName() string {
 }
 
 func (i *Server) GetAllStudents(w rest.ResponseWriter, r *rest.Request) {
-	student := []Student{}
-	i.DB.Find(&student)
-	w.WriteJson(&student)
+	students := []Student{}
+	i.DB.Find(&students)
+	w.WriteJson(&students)
 }
 
 func (i *Server) GetStudent(w rest.ResponseWriter, r *rest.Request) {
