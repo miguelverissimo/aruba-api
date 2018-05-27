@@ -43,6 +43,11 @@ func main() {
 		rest.Get("/books/:id", s.GetBook),
 		rest.Put("/books/:id", s.PutBook),
 		rest.Delete("/books/:id", s.DeleteBook),
+
+		rest.Get("/books/:id/boat", s.GetBoatForBook),
+		rest.Post("/books/:id/boat", s.PostBookOnBoat),
+		rest.Put("/books/:id/boat", s.PutBookOnBoat),
+		rest.Delete("/books/:id/boat", s.DeleteBoatForBook),
 	)
 	if err != nil {
 		log.Fatal(err)
