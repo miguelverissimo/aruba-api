@@ -33,6 +33,11 @@ func main() {
 		rest.Put("/students/:id", s.PutStudent),
 		rest.Delete("/students/:id", s.DeleteStudent),
 
+		rest.Get("/students/:id/boat", s.GetBoatForStudent),
+		rest.Post("/students/:id/boat", s.PostStudentOnBoat),
+		rest.Put("/students/:id/boat", s.PutStudentOnBoat),
+		rest.Delete("/students/:id/boat", s.DeleteBoatForStudent),
+
 		rest.Get("/books", s.GetAllBooks),
 		rest.Post("/books", s.PostBook),
 		rest.Get("/books/:id", s.GetBook),

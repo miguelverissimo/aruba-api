@@ -78,7 +78,6 @@ func (i *Server) PutSkisOnBoat(w rest.ResponseWriter, r *rest.Request) {
 		return
 	}
 	w.WriteJson(&skiPairs)
-
 }
 
 func (i *Server) DeleteAllSkisOnBoat(w rest.ResponseWriter, r *rest.Request) {
