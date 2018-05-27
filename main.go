@@ -21,6 +21,12 @@ func main() {
 		rest.Get("/boats/:id", s.GetBoat),
 		rest.Put("/boats/:id", s.PutBoat),
 		rest.Delete("/boats/:id", s.DeleteBoat),
+
+		rest.Get("/students", s.GetAllStudents),
+		rest.Post("/students", s.PostStudent),
+		rest.Get("/students/:id", s.GetStudent),
+		rest.Put("/students/:id", s.PutStudent),
+		rest.Delete("/students/:id", s.DeleteStudent),
 	)
 	if err != nil {
 		log.Fatal(err)
