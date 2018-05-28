@@ -15,6 +15,21 @@ func main() {
 
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
+	api.Use(&rest.CorsMiddleware{
+		RejectNonCorsRequests: false,
+		OriginValidator: func(origin string, request *rest.Request) bool {
+			// return origin == "http://aruba-client.127.0.0.1.xip.io/"
+			return true
+		},
+		AllowedMethods: []string{"GET", "POST", "PUT"},
+		AllowedHeaders: []string{
+			"Accept", "Content-Type", "X-Custom-Header", "Origin"},
+		AccessControlExposeHeaders: []string{
+			"Access-Control-Allow-Origin", "*"},
+		AccessControlAllowCredentials: true,
+		AccessControlMaxAge:           3600,
+	})
+
 	router, err := rest.MakeRouter(
 		rest.Get("/boats", s.GetAllBoats),
 		rest.Post("/boats", s.PostBoat),
