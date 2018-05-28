@@ -25,7 +25,7 @@ func (Student) TableName() string {
 }
 
 func (i *Server) GetAllStudents(w rest.ResponseWriter, r *rest.Request) {
-	students := []Student{}
+	students := []StudentFull{}
 	i.DB.Find(&students)
 
 	i.DB.Debug().Raw(`
