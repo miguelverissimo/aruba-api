@@ -116,14 +116,18 @@ func (i *Server) GetAllBoats(w rest.ResponseWriter, r *rest.Request) {
 	i.DB.Debug().Raw(`
 			SELECT
 				b.id, b.name, b.price, b.color, b.last_student_change,
-				GROUP_CONCAT(DISTINCT id_student ORDER BY id_student SEPARATOR ',') students,
-				GROUP_CONCAT(DISTINCT id_book ORDER BY id_book SEPARATOR ',') books,
-				GROUP_CONCAT(DISTINCT id_student ORDER BY id_student SEPARATOR ',') skis
+				GROUP_CONCAT(DISTINCT bs.id_student ORDER BY bs.id_student SEPARATOR ',') students,
+				GROUP_CONCAT(DISTINCT bb.id_book ORDER BY bb.id_book SEPARATOR ',') books,
+				GROUP_CONCAT(DISTINCT 
+					bsp.id_student_skipair1, ",", 
+					bsp.id_student_skipair2, ",", 
+					bsp.id_student_skipair3, ",", 
+					bsp.id_student_skipair4) skis
 			FROM boat b
-			LEFT JOIN      boat_has_student bs ON (bs.id_boat = b.id)
-			LEFT JOIN      boat_has_book bb ON (bb.id_boat = b.id)
-			LEFT JOIN      boat_has_skipair bsp ON (bsp.id_boat = b.id)
-			GROUP BY  b.id`).Scan(&boats)
+			LEFT JOIN boat_has_student bs ON (bs.id_boat = b.id)
+			LEFT JOIN boat_has_book bb ON (bb.id_boat = b.id)
+			LEFT JOIN boat_has_skipair bsp ON (bsp.id_boat = b.id)
+			GROUP BY b.id`).Scan(&boats)
 	for _, boat := range boats {
 		boatsResponse = append(boatsResponse, boat.ConvertToBoatFullResponse())
 	}
