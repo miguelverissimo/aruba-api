@@ -13,6 +13,12 @@ type Student struct {
 	HasSkipair bool
 }
 
+type StudentFull struct {
+	Student
+	BoatID     uint
+	SkisBoatID uint
+}
+
 // needed because of poor table naming
 func (Student) TableName() string {
 	return "student"
@@ -21,6 +27,19 @@ func (Student) TableName() string {
 func (i *Server) GetAllStudents(w rest.ResponseWriter, r *rest.Request) {
 	students := []Student{}
 	i.DB.Find(&students)
+
+	i.DB.Debug().Raw(`
+			SELECT
+				s.id, s.first_name, s.last_name, s.has_skipair,
+				bs.id_boat as boat_id, skis.id_boat as skis_boat_id
+			FROM student s
+			LEFT JOIN boat_has_student bs ON (bs.id_student = s.id)
+			LEFT JOIN boat_has_skipair skis 
+					ON (skis.id_student_skipair1 = s.id 
+					OR skis.id_student_skipair2 = s.id 
+					OR skis.id_student_skipair3 = s.id 
+					OR skis.id_student_skipair4 = s.id)`).Scan(&students)
+
 	w.WriteJson(&students)
 }
 
